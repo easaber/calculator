@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
-
+   <link rel="stylesheet" href="./css/style.css">
   <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
   
   <title>Frontend Mentor | Calculator app</title>
 
 </head>
-<body>
+<body onclick="getKeyValue(event)">
 
   <div class="container theme-two">
     <header>
@@ -22,9 +22,7 @@
       </div>
     </header>
 
-    <section class="display">
-      0
-    </section>
+    <section class="display">0</section>
 
     <section class="keypad">
       <div class="keys">
@@ -42,8 +40,8 @@
         <div class="key minus">-</div>
         <div class="key decimal">.</div>
         <div class="key">0</div>
-        <div class="key">/</div>
-        <div class="key multiply">x</div>
+        <div class="key divide">÷</div>
+        <div class="key multiply">×</div>
         <div class="reset">RESET</div>
         <div class="key equals">=</div>
       </div>

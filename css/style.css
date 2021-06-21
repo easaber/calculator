@@ -1,0 +1,137 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Spartan; }
+
+.container {
+  width: 100%;
+  height: 100vh;
+  padding: 5%;
+  box-sizing: border-box; }
+
+header {
+  position: relative; }
+header .toggle {
+    position: absolute;
+    right: 0;
+    top: 0; 
+  }
+header .toggle .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px; 
+}
+header .toggle .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0; 
+}
+      header .toggle .switch .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s; }
+        header .toggle .switch .slider:before {
+          position: absolute;
+          content: "";
+          height: 15px;
+          width: 15px;
+          left: 4px;
+          bottom: 3px;
+          background-color: white;
+          -webkit-transition: .4s;
+          transition: .4s; }
+      header .toggle .switch input:checked + .slider {
+        background-color: #232c43; }
+      header .toggle .switch input:focus + .slider {
+        box-shadow: 0 0 1px #232c43; }
+      header .toggle .switch input:checked + .slider:before {
+        transform: translateX(18px); }
+      header .toggle .switch .slider.round {
+        border-radius: 34px; }
+        header .toggle .switch .slider.round:before {
+          border-radius: 50%; }
+
+.display {
+  padding: 30px 20px;
+  font-size: 32px;
+  font-weight: 700;
+  text-align: right;
+  border-radius: 10px;
+  margin-bottom: 20px; }
+
+.keypad {
+  border-radius: 10px;
+  padding: 20px; }
+  .keypad .keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 15px; }
+    .keypad .keys .key, .keypad .keys .del, .keypad .keys .reset, .keypad .keys .equals {
+      padding: 11px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 25px;
+      border-radius: 3px;
+      height: 30px;
+      line-height: 30px;
+      transition: box-shadow ease-in 100ms; }
+      .keypad .keys .key:active, .keypad .keys .del:active, .keypad .keys .reset:active, .keypad .keys .equals:active {
+        box-shadow: none; }
+    .keypad .keys .del, .keypad .keys .reset {
+      font-size: 15px; }
+    .keypad .keys .reset {
+      grid-column: 1/3; }
+    .keypad .keys .equals {
+      grid-column: 3/5;
+      font-size: 20px; }
+
+.theme-one {
+  background: #3a4764; }
+  .theme-one header h3 {
+    color: #fff; }
+  .theme-one .display {
+    background: #232c43;
+    color: #fff; }
+  .theme-one .keypad {
+    background: #232c43; }
+    .theme-one .keypad .key {
+      background: #fff;
+      color: #404e72;
+      box-shadow: 0px 3px 0px 0px #b4a597; }
+    .theme-one .keypad .del, .theme-one .keypad .reset {
+      color: #fff;
+      background: #637097;
+      box-shadow: 0px 3px 2px 0px #404e72; }
+    .theme-one .keypad .equals {
+      color: #fff;
+      background: #d03f2f;
+      box-shadow: 0px 3px 2px 0px #93261a; }
+
+.theme-two {
+  background: #e6e6e6; }
+  .theme-two header h3 {
+    color: #35352c; }
+  .theme-two .display {
+    background: #ededed;
+    color: #35352c; }
+  .theme-two .keypad {
+    background: #d1cccc; }
+    .theme-two .keypad .key {
+      background: #e5e4e1;
+      color: #35352c;
+      box-shadow: 0px 3px 0px 0px #b4a597; }
+    .theme-two .keypad .del, .theme-two .keypad .reset {
+      color: #fff;
+      background: #377f86;
+      box-shadow: 0px 3px 2px 0px #1b5f65; }
+    .theme-two .keypad .equals {
+      color: #fff;
+      background: #ca5502;
+      box-shadow: 0px 3px 2px 0px #893901; }
