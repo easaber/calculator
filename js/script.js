@@ -1,105 +1,125 @@
-let index = 0;
-function evaluateAdditions(exp){
-    let num1 = evaluateDivisors(exp);
-    while(true){
-        var op = exp[index];
-        if(op !=='+' && op !=='-'){
-            return num1;
-        }
-        index++;
-        let num2 = evaluateDivisors(exp);
-        if(op === '+'){
-            num1+=num2;
-        }
-        else{
-            num1-=num2;
-        }
-    }
+const toggle = document.querySelector('.toggle input')
+const display = document.querySelector('.display')
+const keys = document.querySelectorAll('.key')
+const delBtn = document.querySelector('.del')
+const reset = document.querySelector('.reset')
+const equals = document.querySelector('.equals')
+let isEvaluated = false
+let evalAnswer = 0
+const keyValues = []
+
+const numberWithCommas = x => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-function evaluateDivisors(exp){
-    let num1 = getNumber(exp);
-    while(true){
-        var op = exp[index];
-        if(op !=='÷' && op !=='×'){
-            return num1;
-        }
-        index++;
-        let num2 = getNumber(exp);
-        if(op === '÷'){
-            num1/=num2;
-        }
-        else{
-            num1*=num2;
-        }
+
+// Handles theme toggling
+const toggleHandler = e => {
+    const parent = e.target.closest('.container')
+    if(parent.classList.contains('theme-two')) {
+        parent.classList.replace('theme-two','theme-one')
+    } else {
+        parent.classList.replace('theme-one','theme-two')
     }
 }
 
-function getNumber(exp){
-    /* By using ASCII table values we fetch the integer values of characters from 0 to 9 and decimal(.) */
-    let result = "";
-    while( (exp.charCodeAt(index)>= 48 && exp.charCodeAt(index) <= 57)  || exp.charCodeAt(index) === 46){
-        result+= exp[index];
-        index+=1;
-        if(index === exp.length){
-            break;
+// Pushes the value to an array
+const keyValuesHandler = value => {
+    
+    const operators = ['+','-','*','/']
+    if(isEvaluated) {
+        console.log(isEvaluated)
+        if(!operators.includes(value) && keyValues.length > 0) {
+            keyValues.length = 0
+            isEvaluated = false
+            return;
+        } else {
+            isEvaluated = false
+            console.log(value)
+            return;
         }
-    }
-    return parseFloat(result);
-}
-function solveExpression(expression){
-    let expr = expression.replace(/\s/g, '');
-
-    return evaluateAdditions(expr,0);
-}
-function getKeyValue(e){
-    let displayValue = document.getElementsByClassName('display')[0];
-    if(e.target.className === "key" || e.target.className === "key decimal"){
-        if(displayValue.innerHTML === "0"){
-            displayValue.innerHTML = e.target.innerHTML;
-        }
-        else{
-            displayValue.innerHTML+=e.target.innerHTML;
-        }
-    }
-    else if(e.target.className === "key add" || e.target.className === "key minus" ||
-    e.target.className === "key multiply" || e.target.className === "key divide"){
-        if(displayValue.innerHTML === "0"){
-            displayValue.innerHTML = e.target.innerHTML;
-        }
-        else{
-            displayValue.innerHTML+=" "+e.target.innerHTML+" ";
-        }
-    }
-    else if(e.target.className === "reset"){
-        displayValue.innerHTML = "0";
+    } else {
+        // isEvaluated = true
     }
 
-    // Delete function
-    else if(e.target.className === "del"){
-        let expr = displayValue.innerHTML ;
-        if(expr.length !== 0){
-            if(expr.charAt(expr.length-1) === " "){
-                expr = expr.slice(0, expr.length-2);
-                displayValue.innerHTML = expr;
-            }
-            else if(expr.length === 1 || expr === "NaN"){
-                displayValue.innerHTML = 0;
-            }
-            else{
-                expr = expr.slice(0, expr.length-1);
-                displayValue.innerHTML = expr;
-            }
-        }
+    if(value === '=') {
+        return;
     }
-    else if(e.target.className === "key equals"){
-        try {
-            let answer = solveExpression(displayValue.innerHTML);
-            window.alert(answer);
-            displayValue.innerHTML = answer;
-             index = 0;
-        } catch (error) {
-            window.alert(error);
-        }
-       
+
+    if(value === 'x') {
+        value = '*'
     }
+    if(value === '÷') {
+        value = '/'
+    }
+
+    keyValues.push(value)
+
+    let firstValue = keyValues[0]
+
+    if(firstValue === '+' ||
+    firstValue === '*' ||
+    firstValue === '/' ){
+        keyValues.splice(0,1)
+    }
+
+    
+
+    if(firstValue === '-' && keyValues[1] === '-') {
+        keyValues.splice(0,1)
+    }
+
+    if(firstValue === '.' && keyValues[1] === '.') {
+        keyValues.splice(0,1)
+    }
+
+    if(firstValue === '0' && keyValues[1] === '0') {
+        keyValues.splice(0,1)
+    }
+
+    const lastValue = keyValues[keyValues.length - 2]
+    if(lastValue === '-' && value === '-') {
+        keyValues.splice(keyValues.length -1, 1)
+    }
+
+    const combinedValues = keyValues.join('')
+    displayValues(numberWithCommas(combinedValues))
 }
+
+// Display to the screen
+const displayValues = value => {
+    if(!value){
+        value = 0
+    }
+    display.textContent = value
+} 
+
+// Toggles theme
+toggle.addEventListener('click',toggleHandler)
+
+// Loops through keys
+for(let key of keys) {
+    key.addEventListener('click',(event) => {
+        const keyValue = event.target.textContent //Returns the value of a key
+        keyValuesHandler(keyValue)
+    })
+}
+
+// Delete operation
+delBtn.addEventListener('click',() => {
+    keyValues.pop()
+    displayValues(numberWithCommas(keyValues.join('')))
+})
+
+reset.addEventListener('click',() => {
+    keyValues.length = 0
+    displayValues(0)
+})
+
+equals.addEventListener('click',() => {
+    const answer = eval(keyValues.join(''))
+    displayValues(answer)
+    keyValues.length = 0
+    isEvaluated = true
+    keyValues[0] = answer
+    evalAnswer = answer
+})
